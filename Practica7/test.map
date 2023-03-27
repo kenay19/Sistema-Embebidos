@@ -1,0 +1,48 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Tue Mar 14 16:35:26 2023
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000042
+      .config_2007_TEST.O       code   0x002007    program   0x000002
+      .config_2008_TEST.O       code   0x002008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000020      
+                            0x002007    0x002008      
+            35 out of 8455 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x00000c    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                   MOTOR0   0x00000f    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR0DER   0x000015    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR0IZQ   0x000018    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                   MOTOR1   0x000012    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR1DER   0x00001b    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR1IZQ   0x00001e    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                    confi   0x000000    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    confi   0x000000    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                   INICIO   0x00000c    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                   MOTOR0   0x00000f    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                   MOTOR1   0x000012    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR0DER   0x000015    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR0IZQ   0x000018    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR1DER   0x00001b    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+                MOTOR1IZQ   0x00001e    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica7\test.asm
+
+

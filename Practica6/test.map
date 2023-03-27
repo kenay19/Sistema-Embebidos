@@ -1,0 +1,61 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Mon Mar 13 14:32:54 2023
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000192
+      .config_2007_TEST.O       code   0x002007    program   0x000002
+      .config_2008_TEST.O       code   0x002008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0000c8      
+                            0x002007    0x002008      
+            203 out of 8455 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    DOKEV   0x00003d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    DOVIC   0x00002a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   INICIO   0x000012    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   KEVINB   0x00008a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   KEVINC   0x0000a3    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 SECCION1   0x000015    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 SECCION2   0x000020    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                  VICTORB   0x000050    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                  VICTORC   0x00006d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    confi   0x000000    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                     loop   0x0000c2    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    reKev   0x00004d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    reVic   0x00003a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 retrasos   0x0000bc    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    confi   0x000000    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   INICIO   0x000012    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 SECCION1   0x000015    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 SECCION2   0x000020    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    DOVIC   0x00002a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    reVic   0x00003a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    DOKEV   0x00003d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                    reKev   0x00004d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                  VICTORB   0x000050    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                  VICTORC   0x00006d    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   KEVINB   0x00008a    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                   KEVINC   0x0000a3    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                 retrasos   0x0000bc    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+                     loop   0x0000c2    program     static C:\Users\Kenay\Desktop\Octavo Semestre\Sistemas Embebidos\src\Practica6\test.asm
+
+
