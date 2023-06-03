@@ -1,0 +1,7 @@
+Warning[205] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 2 : Found directive in column 1. (LIST)
+Warning[215] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 2 : Processor superseded by command line.  Verify processor symbol.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 26 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 27 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 31 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 34 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA12\TEST.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.

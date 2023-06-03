@@ -1,12 +1,14 @@
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  1
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
+                      00001         
 Warning[205]: Found directive in column 1. (LIST)
-                      00001 LIST P=16F887
-                      00002 #INCLUDE <P16F887.INC>
+Warning[215]: Processor superseded by command line.  Verify processor symbol.
+                      00002 LIST p=16f877
+                      00003 #INCLUDE <P16F887.INC>
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
@@ -16,195 +18,265 @@ Warning[205]: Found directive in column 1. (LIST)
                       00007 ;==========================================================================
                       00008 
                       00809         LIST
-2007   28E4           00003         __CONFIG    _CONFIG1, _LVP_OFF & _FCMEN_ON & _IESO_OFF & _BOR_OFF & _CPD_OFF & _CP_OFF & _MCLRE_
+2007   28E4           00004         __CONFIG    _CONFIG1, _LVP_OFF & _FCMEN_ON & _IESO_OFF & _BOR_OFF & _CPD_OFF & _CP_OFF & _MCLRE_
                             ON & _PWRTE_ON & _WDT_OFF & _INTRC_OSC_NOCLKOUT
-2008   3EFF           00004         __CONFIG    _CONFIG2, _WRT_OFF & _BOR21V
-0000                  00005         ORG     0x000
-  00000021            00006 CounterC    EQU     0x21
-  00000022            00007 CounterB        EQU     0x22
-  00000023            00008 CounterA    EQU     0x23
-  00000024            00009 COUNTU          EQU     0x24
-  00000025            00010 COUNTD          EQU     0x25
-  00000026            00011 COUNTC          EQU     0x26
-  00000027            00012 COUNTM          EQU     0x27
-  00000028            00013 CountMSA   EQU     0x28
-  00000029            00014 CountMSB   EQU     0x29
-  00000030            00015 CountMSC   EQU     0x30
-0000   1683           00016 confi           BSF   STATUS,RP0         
-0001   3000           00017                         MOVLW 0x00               ;
+2008   3EFF           00005         __CONFIG    _CONFIG2, _WRT_OFF & _BOR21V
+                      00006         
+                      00007 ;Variable para el DELAY del ADC
+  00000020            00008 val equ h'20'
+                      00009 ;Variables para el DELAY del ENABLE LCD
+  00000030            00010 val2 equ 0x30
+  00000031            00011 val1 equ 0x31
+                      00012 ;Variables para separar el resultado de ADC; en valor BCD
+  00000032            00013 Unidades equ 0x32
+  00000033            00014 Decenas equ 0x33
+  00000034            00015 Centenas equ 0x34
+  00000035            00016 Resto equ 0x35
+  00000036            00017 COUNT equ 0x36
+                      00018 
+0000   0185           00019 INICIO  clrf PORTA ;Limpia el puerto A
+0001   0186           00020                 clrf PORTB ;Limpia el puerto B
+0002   0187           00021                 clrf PORTC ;Limpia el puerto C
+0003   0188           00022                 clrf PORTD ;Limpia el puerto D
+0004   1683           00023                 bsf STATUS,RP0
+0005   1303           00024                 bcf STATUS,RP1 ;Cambio al banco 1
+                      00025                 ;Configuración de puertos C-D para el LCD
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0002   0085           00018                         MOVWF TRISA
+0006   0187           00026                 clrf TRISC ;Configura PORTC como salida
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0003   0086           00019                         MOVWF TRISB
-0004   1703           00020                         BSF   STATUS,RP1 ;
+0007   0188           00027                 clrf TRISD ;Configura PORTD como salida
+                      00028 
+                      00029                 ;Configuración del puerto A para ADC
+0008   3000           00030                 movlw 00h
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0005   0188           00021                         CLRF  ANSEL      ;
+0009   009F           00031                 movwf ADCON1 
+                      00032                 ;Configura puerto A y E como analógicos
+000A   303F           00033                 movlw 3fh
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0006   0189           00022                         CLRF  ANSELH     ; 
-0007   1283           00023                         BCF   STATUS,RP0;
-0008   1303           00024                         BCF       STATUS,RP1;
-0009   0185           00025                         CLRF  PORTA     ;
-000A   0186           00026                         CLRF  PORTB
-000B   3000           00027                         MOVLW D'0'
-000C   00A7           00028                         MOVWF COUNTM
-000D   3001           00029                         MOVLW D'1'
-000E   00A6           00030                         MOVWF COUNTC
-000F   3002           00031                         MOVLW D'2'
-0010   00A5           00032                         MOVWF COUNTD
-0011   3003           00033                         MOVLW D'3'
-0012   00A4           00034                         MOVWF COUNTU
-                      00035 
-                      00036 
-0013   204D           00037 INICIO      CALL RETRASOS
-0014   0AA7           00038                         INCF COUNTM,1
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  2
+000B   0085           00034                 movwf TRISA 
+                      00035                 ;Configura el puerto A como entrada
+000C   3000           00036                 movlw h'0'
+                      00037                 ;Configuración del puerto B para mostrar el resultado ADC
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0015   0AA6           00039                         INCF COUNTC,1
-0016   0AA5           00040                         INCF COUNTD,1
-0017   0AA4           00041                         INCF COUNTU,1
-0018   3011           00042                         MOVLW D'17'
-0019   02A7           00043                         SUBWF COUNTM,1
-001A   02A6           00044                         SUBWF COUNTC,1
-001B   02A5           00045                         SUBWF COUNTD,1
-001C   02A4           00046                         SUBWF COUNTU,1
-001D   0B27           00047                         DECFSZ COUNTM,0
-001E   282E           00048                         GOTO RECUM
-001F   3000           00049                         MOVLW D'0'
-0020   00A7           00050                         MOVWF COUNTM
-0021   0B26           00051 A1                      DECFSZ COUNTC,0
-0022   2831           00052                         GOTO RECUC
-0023   3000           00053                         MOVLW D'0'
-0024   00A6           00054                         MOVWF COUNTC
-0025   0B25           00055 B1                      DECFSZ COUNTD,0
-0026   2834           00056                         GOTO RECUD
-0027   3000           00057                         MOVLW D'0'
-0028   00A5           00058                         MOVWF COUNTD
-0029   0B24           00059 C1                      DECFSZ COUNTU,0
-002A   2837           00060                         GOTO RECUU
-002B   3000           00061                         MOVLW D'0'
-002C   00A4           00062                         MOVWF COUNTU
-002D   2813           00063                         GOTO  INICIO
-                      00064 
-002E   3011           00065 RECUM       MOVLW D'17'
-002F   07A7           00066                         ADDWF COUNTM,1
-0030   2821           00067                         GOTO  A1
-                      00068 
-0031   3011           00069 RECUC       MOVLW D'17'
-0032   07A6           00070                         ADDWF COUNTC,1
-0033   2825           00071                         GOTO  B1
-                      00072 
-0034   3011           00073 RECUD       MOVLW D'17'
-0035   07A5           00074                         ADDWF COUNTD,1
-0036   2829           00075                         GOTO  C1
-                      00076 
-0037   3011           00077 RECUU       MOVLW D'17'
-0038   07A4           00078                         ADDWF COUNTU,1
-0039   2813           00079                         GOTO  INICIO
-                      00080                         
-003A   0782           00081 TABLAB      ADDWF PCL,F
-                      00082                         ;       ABCDEFG
-003B   346E           00083                         RETLW b'01101110'; H
-003C   34FC           00084                         RETLW b'11111100'; O
-003D   341C           00085                         RETLW b'00011100'; L
-003E   34EE           00086                         RETLW b'11101110'; A
-003F   3400           00087                         RETLW b'00000000'; 
-0040   34CE           00088                         RETLW b'11001110'; P
-0041   34EE           00089                         RETLW b'11101110'; A
-0042   34CE           00090                         RETLW b'11001110'; P
-0043   3460           00091                         RETLW b'01100000'; I
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  3
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000D   0086           00038                 movwf TRISB 
+                      00039                 ;Configura puerto B como salida
+000E   1283           00040                 bcf STATUS,RP0 ;Regresa al banco 0
+                      00041                 ;Inicio del programa
+000F   201C           00042 START   call START_LCD ;Inicializa LCD
+0010   01B6           00043                 CLRF COUNT
+0011   0836           00044 SHOW    MOVFW COUNT
+0012   208F           00045                 CALL TABLA 
+0013   0086           00046                 MOVWF PORTB
+0014   2028           00047                 CALL ENVIA
+0015   0AB6           00048                 INCF  COUNT,1
+0016   300D           00049                 MOVLW D'13'
+0017   02B6           00050                 SUBWF COUNT,1
+0018   0B36           00051                 DECFSZ COUNT,0
+0019   28A4           00052                 GOTO RECUPERA
+001A   01B6           00053                 CLRF COUNT 
+001B   2836           00054                 GOTO START_ADC ;Comienza la lectura del Conv. A/D
+                      00055                 ;Inicia LCDS
+001C   1008           00056 START_LCD bcf PORTD,0 ; RS=0 MODO INSTRUCCION
+001D   3001           00057                 movlw 0x01 ; 0x01 limpia la pantalla en el LCD
+001E   0086           00058                 movwf PORTB
+001F   202B           00059                 call COMANDO ; Se da de alta el comando
+0020   300C           00060                 movlw 0x0C ; Selecciona la primera línea
+0021   0086           00061                 movwf PORTB
+0022   202B           00062                 call COMANDO ; Se da de alta el comando
+0023   303C           00063                 movlw 0x3C 
+                      00064                 ; Se configura el cursor
+0024   0086           00065                 movwf PORTB
+0025   202B           00066                 call COMANDO ; Se da de alta el comando
+0026   1408           00067                 bsf PORTD, 0 ; Rs=1 MODO DATO
+0027   0008           00068                 return
+                      00069 
+                      00070 ;Rutina para enviar un dato
+0028   1408           00071 ENVIA   bsf PORTD, 0 ; RS=1 MODO DATO
+0029   202B           00072                 call COMANDO ; Se da de alta el comando
+002A   0008           00073                 return
+                      00074 ;Rutina para enviar comandos
+002B   1488           00075 COMANDO bsf PORTD, 1 ; Pone la señal ENABLE en 1
+002C   2086           00076                 CALL DELAY2
+002D   2086           00077                 CALL DELAY2
+002E   1088           00078                 bcf PORTD, 1 ; ENABLE=0call DELAY2
+002F   0008           00079                 return
+                      00080 ;Rutina para limpar pantalla LCD
+0030   1008           00081 ERASE_LCD       bcf PORTD,0 ; RS=0 MODO INSTRUCCION
+0031   3001           00082                                 movlw 0x01 ; 0x01 limpia la pantalla en el LCD
+0032   0086           00083                                 movwf PORTB
+0033   202B           00084                                 call COMANDO ; Se da de alta el comando
+0034   1408           00085                                 bsf PORTD, 0 ; Rs=1 MODO DATO
+0035   0008           00086                                 return
+                      00087 ;Configuración Convertidor A/D
+0036   30C1           00088 START_ADC       movlw b'11000001' ;ConfiguraciOn ADCON0
+0037   009F           00089                         movwf ADCON0 ;ADCS1=1 ADCS0=1 CHS2=0 CHS1=0
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0044   349C           00092                         RETLW b'10011100'; C
-0045   34FC           00093                         RETLW b'11111100'; O
-0046   34B6           00094                         RETLW b'10110110'; S
-0047   3400           00095                         RETLW b'00000000'; 
-0048   34DA           00096                         RETLW b'11011010'; 2
-0049   34FC           00097                         RETLW b'11111100'; 0
-004A   34DA           00098                         RETLW b'11011010'; 2
-004B   34F2           00099                         RETLW b'11110010'; 3
-004C   34EE           00100                         RETLW b'11101110'; A
-                      00101                         
-                      00102 
-                      00103                    
-004D   3002           00104 RETRASOS        MOVLW   D'2'
-004E   00A1           00105                         MOVWF   CounterC
-004F   300A           00106 c                       MOVLW   D'10'
-0050   00A2           00107                         MOVWF   CounterB
-0051   3050           00108 a                       MOVLW   D'80'
-0052   00A3           00109                         MOVWF   CounterA
-0053   0BA3           00110 loop        DECFSZ      CounterA,1
-0054   285A           00111                         GOTO    muestra
-0055   0BA2           00112                         DECFSZ  CounterB,1
-0056   2851           00113                         GOTO    a 
-0057   0BA1           00114                         DECFSZ  CounterC,1
-0058   284F           00115                         GOTO    c
-0059   0008           00116                         RETURN
-                      00117 
-                      00118 
-005A   205C           00119 muestra     CALL  SHOW
-005B   2853           00120                         GOTO  loop
-                      00121 
-005C   3008           00122 SHOW        MOVLW B'00001000'
-005D   0085           00123                     MOVWF PORTA
-005E   0824           00124                         MOVFW COUNTU    
-005F   203A           00125                         CALL TABLAB
-0060   0086           00126                         MOVWF PORTB
-0061   2075           00127                         CALL  MS5
-0062   3004           00128                         MOVLW B'00000100'
-0063   0085           00129                     MOVWF PORTA
-0064   0825           00130                         MOVFW COUNTD    
-0065   203A           00131                         CALL TABLAB 
-0066   0086           00132                         MOVWF PORTB
-0067   2075           00133                         CALL  MS5
-0068   3002           00134                         MOVLW B'00000010'
-0069   0085           00135                     MOVWF PORTA
-006A   0826           00136                         MOVFW COUNTC    
-006B   203A           00137                         CALL TABLAB 
-006C   0086           00138                         MOVWF PORTB
-006D   2075           00139                         CALL  MS5
-006E   3001           00140                         MOVLW B'00000001'
-006F   0085           00141                     MOVWF PORTA
-0070   0827           00142                         MOVFW COUNTM
-0071   203A           00143                         CALL TABLAB 
-0072   0086           00144                         MOVWF PORTB
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  4
+                      00090                                                 ;CHS0=0 GO/DONE=0 - ADON=1
+                      00091                         
+0038   149F           00092 CICLO           bsf ADCON0,GO_DONE ;Conversión en progreso GO=1
+                      00093                         
+0039   2081           00094                         CALL DELAY1
+003A   189F           00095 ESPERA          btfsc ADCON0,GO_DONE ;Pregunta por DONE=0?(Terminó conversión)
+003B   283A           00096                         goto ESPERA ;No, vuelve a preguntar
+003C   081E           00097                         movf ADRESH,0 ;Si 
+                      00098                         
+                      00099 ;Rutina que muestra temperatura                 
+003D                  00100 SHOW2
+003D   1008           00101                         BCF PORTD,0 ; RS = 0 MODO DE INSTRUCCION
+003E   30C1           00102                         MOVLW 0Xc1  ; LIMPIAMOS DISPLAY 
+003F   0086           00103                         MOVWF PORTB ; 
+0040   202B           00104                         CALL  COMANDO
+0041   1408           00105                         BSF PORTD,0 
+                      00106                         
+0042   0836           00107                         MOVFW COUNT
+0043   209E           00108                         CALL TABLA2 
+0044   0086           00109                         MOVWF PORTB
+0045   2028           00110                         CALL ENVIA
+0046   0AB6           00111                         INCF  COUNT,1
+0047   3004           00112                         MOVLW D'4'
+0048   02B6           00113                         SUBWF COUNT,1
+0049   0B36           00114                         DECFSZ COUNT,0
+004A   28A7           00115                         GOTO RECUPERA2 
+004B   01B6           00116                         CLRF COUNT
+004C   2053           00117                         call READ_TEMP ;Llamada a rutina que obtine el
+                      00118                                                         ;valor de la temperatura a partir
+                      00119                                                         ;del resultado del Conv a/D
+004D   1008           00120                         BCF PORTD,0 ; RS = 0 MODO DE INSTRUCCION
+004E   30C0           00121                         MOVLW 0Xc0  ; LIMPIAMOS DISPLAY 
+004F   0086           00122                         MOVWF PORTB ; 
+0050   202B           00123                         CALL  COMANDO
+0051   1408           00124                         BSF PORTD,0 
+0052   2838           00125                         goto CICLO ;Repite el ciclo de lectura ADC
+                      00126 
+                      00127 ;Rutina que obtine el valor de la temperatura
+                      00128 ;a partir del resultado del Conv a/D
+                      00129 
+0053                  00130 READ_TEMP       
+0053   01B4           00131                         clrf Centenas
+0054   01B3           00132                         clrf Decenas
+0055   01B2           00133                         clrf Unidades
+0056   081E           00134                         movf ADRESH,W
+0057   071E           00135                         addwf ADRESH,W ;Dupilca el valor de ADRESH para;obtener un valor de temperatura 
+                            real aprox
+0058   00B5           00136                         movwf Resto ;Guarda el valor de ADRESH en Resto
+                      00137                         
+                      00138 ;para Centenas, Decenas y unidades atraves de restas
+                      00139 ;sucesivas
+0059                  00140 CENTENAS1
+                      00141                         ;Comienza el proceso d
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0073   2075           00145                         CALL  MS5                       
-0074   0008           00146                     RETURN
-                      00147 
-0075   3001           00148 MS5                     movlw   D'1'
-0076   00A8           00149                         movwf   CountMSA
-0077   300A           00150 b2                      movlw   D'10'
-0078   00A9           00151                         movwf   CountMSB
-0079   3005           00152 a2                      movlw   D'5'
-007A   00B0           00153                         movwf   CountMSC
-007B   0BB0           00154 loop1           decfsz  CountMSC,1
-007C   287B           00155                         goto    loop1
-007D   0BA9           00156                         decfsz  CountMSB,1
-007E   2879           00157                         goto    a2
-007F   0BA8           00158                         decfsz  CountMSA,1
-0080   2877           00159                         goto    b2
-0081   0008           00160                         RETURN
-                      00161                         END
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  5
+0059   3064           00142                         movlw d'100' ;W=d'100'
+005A   0235           00143                         subwf Resto,W ;Resto - d'100' (W)
+005B   1C03           00144                         btfss STATUS,C ;Resto menor que d'100'?
+005C   2860           00145                         goto DECENAS1 ;SI
+005D   00B5           00146                         movwf Resto ;NO, Salva el resto
+005E   0AB4           00147                         incf Centenas,1 ;Incrementa el contador de centenas BCD
+005F   2859           00148                         goto CENTENAS1 ;Realiza otra resta
+0060                  00149 DECENAS1        
+                      00150 ;Comienza el proceso d
+0060   300A           00151                         movlw d'10' ;W=d'10'
+0061   0235           00152                         subwf Resto,W ;Resto - d'10' (W)
+0062   1C03           00153                         btfss STATUS,C ;Resto menor que d'10'?
+0063   2867           00154                         goto UNIDADES1 ;Si
+0064   00B5           00155                         movwf Resto ;No, Salva el resto
+0065   0AB3           00156                         incf Decenas,1 ;Incrementa el contador de centenas BCD
+0066   2860           00157                         goto DECENAS1 ;Realiza otra resta
+                      00158 
+0067                  00159 UNIDADES1       
+                      00160 ;Comienza el proceso d
+0067   0835           00161                         movf Resto,W ;El resto son la Unidades BCD
+0068   00B2           00162                         movwf Unidades;
+0069   01B5           00163                         clrf Resto;Rutina que obtiene el equivalente en ASCII
+006A                  00164 OBTEN_ASCII     
+006A   3030           00165                         movlw h'30'
+006B   04B2           00166                         iorwf Unidades,f
+006C   04B3           00167                         iorwf Decenas,f
+006D   04B4           00168                         iorwf Centenas,f
+006E   0834           00169                         movf Centenas,W ;Imprime el dígito de las centenas
+006F   0086           00170                         movwf PORTB
+0070   2028           00171                         call ENVIA
+0071   0833           00172                         movf Decenas,W ;Imprime el dígito de las decenas
+0072   0086           00173                         movwf PORTB
+0073   2028           00174                         call ENVIA
+0074   0832           00175                         movf Unidades,W ;Imprime el dígito de las unidades
+0075   0086           00176                         movwf PORTB
+0076   2028           00177                         call ENVIA
+0077   3020           00178                         movlw ' '
+0078   0086           00179                         movwf PORTB
+0079   2028           00180                         call ENVIA
+007A   30DF           00181                         movlw h'DF' ;Imprime el simbolo "°"
+007B   0086           00182                         movwf PORTB
+007C   2028           00183                         call ENVIA
+007D   3043           00184                         movlw 'C'
+007E   0086           00185                         movwf PORTB
+007F   2028           00186                         call ENVIA
+0080   0008           00187                         return
+                      00188 ;Rutina que genera un Delay de 20 microSeg aprox.
+                      00189 ;para el Conv. A/D
+0081   3030           00190 DELAY1          movlw h'30'
+0082   00A0           00191                         movwf val
+0083                  00192 Loop 
+0083   0BA0           00193                         decfsz val,1
+0084   2883           00194                         goto Loop
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0085   0008           00195                         return
+                      00196 ;Subrutina de retardo para ENABLE_LCD
+0086   3070           00197 DELAY2          movlw 0x70
+0087   00B1           00198                         movwf val1
+0088                  00199 Loop1
+0088   3020           00200                         movlw 0x20
+0089   00B0           00201                         movwf val2
+008A                  00202 Loop2
+008A   0BB0           00203                         decfsz val2,1
+008B   288A           00204                         goto Loop2
+008C   0BB1           00205                         decfsz val1,1
+008D   2888           00206                         goto Loop1
+008E   0008           00207                         return
+                      00208 
+008F   0782           00209 TABLA   ADDWF PCL,F
+0090   3420 3454 3445 00210                 DT " TEMPERATURA: "
+       344D 3450 3445 
+       3452 3441 3454 
+       3455 3452 3441 
+       343A 3420 
+009E   0782           00211 TABLA2   ADDWF PCL,F
+009F   3420 3420 3420 00212                 DT "     "
+       3420 3420 
+00A4   300D           00213 RECUPERA        MOVLW D'13'
+00A5   07B6           00214                         ADDWF COUNT,1
+00A6   2811           00215                         GOTO SHOW
+                      00216 
+00A7   3004           00217 RECUPERA2       MOVLW D'4'
+00A8   07B6           00218                         ADDWF COUNT,1
+00A9   283D           00219                         GOTO SHOW2
+                      00220                         end
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  6
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-A1                                00000021
 ABDEN                             00000000
 ABDOVF                            00000007
 ACKDT                             00000005
@@ -237,7 +309,6 @@ ANS8                              00000000
 ANS9                              00000001
 ANSEL                             00000188
 ANSELH                            00000189
-B1                                00000025
 BAUDCTL                           00000187
 BCLIE                             00000003
 BCLIF                             00000003
@@ -257,17 +328,16 @@ BRG4                              00000004
 BRG5                              00000005
 BRG6                              00000006
 BRG7                              00000007
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  6
+BRG8                              00000000
+BRG9                              00000001
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  7
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-BRG8                              00000000
-BRG9                              00000001
 BRGH                              00000002
 C                                 00000000
-C1                                00000029
 C1CH0                             00000000
 C1CH1                             00000001
 C1IE                              00000005
@@ -315,33 +385,28 @@ CCPR1L                            00000015
 CCPR2                             0000001B
 CCPR2H                            0000001C
 CCPR2L                            0000001B
+CENTENAS1                         00000059
 CHS0                              00000002
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  7
+CHS1                              00000003
+CHS2                              00000004
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  8
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-CHS1                              00000003
-CHS2                              00000004
 CHS3                              00000005
+CICLO                             00000038
 CKE                               00000006
 CKP                               00000004
 CM1CON0                           00000107
 CM2CON0                           00000108
 CM2CON1                           00000109
-COUNTC                            00000026
-COUNTD                            00000025
-COUNTM                            00000027
-COUNTU                            00000024
+COMANDO                           0000002B
+COUNT                             00000036
 CREN                              00000004
 CSRC                              00000007
-CountMSA                          00000028
-CountMSB                          00000029
-CountMSC                          00000030
-CounterA                          00000023
-CounterB                          00000022
-CounterC                          00000021
+Centenas                          00000034
 D                                 00000005
 DATA_ADDRESS                      00000005
 DC                                00000001
@@ -349,8 +414,12 @@ DC1B0                             00000004
 DC1B1                             00000005
 DC2B0                             00000004
 DC2B1                             00000005
+DECENAS1                          00000060
+DELAY1                            00000081
+DELAY2                            00000086
 D_A                               00000005
 D_NOT_A                           00000005
+Decenas                           00000033
 ECCPAS                            0000009C
 ECCPAS0                           00000004
 ECCPAS1                           00000005
@@ -366,6 +435,9 @@ EEDATH                            0000010E
 EEIE                              00000004
 EEIF                              00000004
 EEPGD                             00000007
+ENVIA                             00000028
+ERASE_LCD                         00000030
+ESPERA                            0000003A
 F                                 00000001
 FERR                              00000002
 FSR                               00000004
@@ -375,19 +447,19 @@ GIE                               00000007
 GO                                00000001
 GO_DONE                           00000001
 GO_NOT_DONE                       00000001
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  8
+HTS                               00000002
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE  9
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-HTS                               00000002
 I2C_DATA                          00000005
 I2C_READ                          00000002
 I2C_START                         00000003
 I2C_STOP                          00000004
 INDF                              00000000
-INICIO                            00000013
+INICIO                            00000000
 INTCON                            0000000B
 INTE                              00000004
 INTEDG                            00000006
@@ -406,9 +478,11 @@ IRCF1                             00000005
 IRCF2                             00000006
 IRP                               00000007
 LTS                               00000001
+Loop                              00000083
+Loop1                             00000088
+Loop2                             0000008A
 MC1OUT                            00000007
 MC2OUT                            00000006
-MS5                               00000075
 MSK                               00000093
 MSK0                              00000000
 MSK1                              00000001
@@ -432,14 +506,15 @@ NOT_TO                            00000004
 NOT_TX8                           00000006
 NOT_W                             00000002
 NOT_WRITE                         00000002
-OERR                              00000001
-OPTION_REG                        00000081
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE  9
+OBTEN_ASCII                       0000006A
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 10
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+OERR                              00000001
+OPTION_REG                        00000081
 OSCCON                            0000008F
 OSCTUNE                           00000090
 OSFIE                             00000007
@@ -491,14 +566,14 @@ RA3                               00000003
 RA4                               00000004
 RA5                               00000005
 RA6                               00000006
-RA7                               00000007
-RB0                               00000000
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 10
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 11
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+RA7                               00000007
+RB0                               00000000
 RB1                               00000001
 RB2                               00000002
 RB3                               00000003
@@ -538,12 +613,10 @@ RE0                               00000000
 RE1                               00000001
 RE2                               00000002
 RE3                               00000003
+READ_TEMP                         00000053
 READ_WRITE                        00000002
-RECUC                             00000031
-RECUD                             00000034
-RECUM                             0000002E
-RECUU                             00000037
-RETRASOS                          0000004D
+RECUPERA                          000000A4
+RECUPERA2                         000000A7
 RP0                               00000005
 RP1                               00000006
 RSEN                              00000001
@@ -551,19 +624,21 @@ RX9                               00000006
 RX9D                              00000000
 R_NOT_W                           00000002
 R_W                               00000002
-S                                 00000003
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 11
+Resto                             00000035
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 12
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+S                                 00000003
 SBOREN                            00000004
 SCKP                              00000004
 SCS                               00000000
 SEN                               00000000
 SENDB                             00000003
-SHOW                              0000005C
+SHOW                              00000011
+SHOW2                             0000003D
 SMP                               00000007
 SPBRG                             00000099
 SPBRGH                            0000009A
@@ -586,6 +661,9 @@ SSPM3                             00000003
 SSPMSK                            00000093
 SSPOV                             00000006
 SSPSTAT                           00000094
+START                             0000000F
+START_ADC                         00000036
+START_LCD                         0000001C
 STATUS                            00000003
 STRA                              00000000
 STRB                              00000001
@@ -606,17 +684,18 @@ T1GIV                             00000007
 T1GSS                             00000001
 T1INSYNC                          00000002
 T1OSCEN                           00000003
-T1SYNC                            00000002
-T2CKPS0                           00000000
-T2CKPS1                           00000001
-T2CON                             00000012
-TABLAB                            0000003A
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 12
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 13
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TABLA                             0000008F
+TABLA2                            0000009E
 TMR0                              00000001
 TMR0IE                            00000005
 TMR0IF                            00000002
@@ -664,18 +743,18 @@ TRISC5                            00000005
 TRISC6                            00000006
 TRISC7                            00000007
 TRISD                             00000088
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TRISD0                            00000000
 TRISD1                            00000001
 TRISD2                            00000002
 TRISD3                            00000003
 TRISD4                            00000004
 TRISD5                            00000005
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 13
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TRISD6                            00000006
 TRISD7                            00000007
 TRISE                             00000089
@@ -702,6 +781,8 @@ UA                                00000001
 ULPWUE                            00000005
 ULPWUIE                           00000002
 ULPWUIF                           00000002
+UNIDADES1                         00000067
+Unidades                          00000032
 VCFG0                             00000004
 VCFG1                             00000005
 VR0                               00000000
@@ -721,6 +802,12 @@ WDTPS1                            00000002
 WDTPS2                            00000003
 WDTPS3                            00000004
 WPUB                              00000095
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 WPUB0                             00000000
 WPUB1                             00000001
 WPUB2                             00000002
@@ -729,12 +816,6 @@ WPUB4                             00000004
 WPUB5                             00000005
 WPUB6                             00000006
 WPUB7                             00000007
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 14
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 WR                                00000001
 WREN                              00000002
 WRERR                             00000003
@@ -780,6 +861,12 @@ _HS_OSC                           00003FFA
 _IDLOC0                           00002000
 _IDLOC1                           00002001
 _IDLOC2                           00002002
+MPASM  5.48                          TEST.ASM   5-4-2023  8:36:20         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _IDLOC3                           00002003
 _IESO_OFF                         00003BFF
 _IESO_ON                          00003FFF
@@ -788,12 +875,6 @@ _INTOSCIO                         00003FFC
 _INTRC_OSC_CLKOUT                 00003FFD
 _INTRC_OSC_NOCLKOUT               00003FFC
 _LP_OSC                           00003FF8
-MPASM  5.48                          TEST.ASM   4-11-2023  9:29:12         PAGE 15
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _LVP_OFF                          00002FFF
 _LVP_ON                           00003FFF
 _MCLRE_OFF                        00003FDF
@@ -811,31 +892,26 @@ _WRT_OFF                          00003FFF
 _XT_OSC                           00003FF9
 __16F887                          00000001
 __DEBUG                           1
-a                                 00000051
-a2                                00000079
-b2                                00000077
-c                                 0000004F
-confi                             00000000
-loop                              00000053
-loop1                             0000007B
-muestra                           0000005A
+val                               00000020
+val1                              00000031
+val2                              00000030
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
 0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
 0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
-0080 : XX-------------- ---------------- ---------------- ----------------
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXX------ ----------------
 2000 : -------XX------- ---------------- ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Words Used:   130
-Program Memory Words Free:  8062
+Program Memory Words Used:   170
+Program Memory Words Free:  8022
 
 
 Errors   :     0
-Warnings :     1 reported,     0 suppressed
-Messages :     4 reported,     0 suppressed
+Warnings :     2 reported,     0 suppressed
+Messages :     5 reported,     0 suppressed
 
 

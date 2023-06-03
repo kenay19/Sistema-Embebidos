@@ -1,0 +1,8 @@
+Warning[205] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 1 : Found directive in column 1. (LIST)
+Warning[207] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 11 : Found label after column 1. (confi)
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 13 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 14 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 16 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 17 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 41 : Using default destination of 1 (file).
+Message[305] C:\USERS\KENAY\DESKTOP\OCTAVO SEMESTRE\SISTEMAS EMBEBIDOS\SRC\PRACTICA11\TEST.ASM 45 : Using default destination of 1 (file).
